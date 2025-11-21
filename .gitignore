@@ -1,0 +1,210 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+*.buildinfo
+
+# TypeScript
+*.tsbuildinfo
+.tsbuildinfo
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+*.test.js.snap
+.jest/
+.pytest_cache/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# IDE - VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+
+# IDE - IntelliJ / WebStorm
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# IDE - Vim
+*.swp
+*.swo
+*~
+.vim/
+
+# IDE - Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# OS - macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# OS - Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# OS - Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache
+.cache/
+.parcel-cache/
+
+# Next.js (if used in examples)
+.next/
+out/
+
+# Nuxt.js (if used in examples)
+.nuxt/
+dist/
+
+# Gatsby (if used in examples)
+.cache/
+public/
+
+# Storybook build outputs
+storybook-static/
+
+# Temporary folders
+tmp/
+temp/
+*.tmp
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Package manager lock files (optional - uncomment if you want to ignore)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Turbo
+.turbo/
+
+# Vercel
+.vercel
+
+# Sentry
+.sentryclirc
+
+# Local Netlify folder
+.netlify
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local development
+.local/
+.localenv
+
+# Misc
+*.pem
+.cursor/
+!.cursor/plans/
+
