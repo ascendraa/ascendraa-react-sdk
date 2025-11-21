@@ -1,6 +1,6 @@
 {
   "name": "@ascendraa/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Official React SDK for Ascendraa - usage-based billing with real-time updates",
   "author": "Ascendraa",
   "license": "MIT",
@@ -18,17 +18,18 @@
     "tanstack",
     "laravel"
   ],
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
-  "files": "dist",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -38,7 +39,6 @@
   "dependencies": {
     "@laravel/echo-react": "^2.2.6",
     "@tanstack/react-query": "^5.90.10",
-    "axios": "^1.13.2",
     "laravel-echo": "^2.2.6",
     "pusher-js": "^8.4.0"
   },

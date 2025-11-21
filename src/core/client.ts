@@ -1,4 +1,3 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
 import type {
   ClientConfig,
   CheckResponse,
@@ -14,51 +13,83 @@ import type {
   RevokeSubscriptionRequest,
 } from './types';
 
+interface RequestConfig {
+  method: 'GET' | 'POST';
+  path: string;
+  body?: unknown;
+}
+
 export class AscendraaClient {
-  private axios: AxiosInstance;
+  private baseURL: string;
+  private headers: {
+    Authorization: string;
+    'X-Public-Key': string;
+    Accept: string;
+    'Content-Type': string;
+  };
 
   constructor(config: ClientConfig) {
-    this.axios = axios.create({
-      baseURL: config.apiUrl,
-      headers: {
-        Authorization: `Bearer ${config.customerToken}`,
-        'X-Public-Key': config.publicKey,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
+    this.baseURL = config.apiUrl;
+    this.headers = {
+      Authorization: `Bearer ${config.customerToken}`,
+      'X-Public-Key': config.publicKey,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+  }
 
-    // Add response interceptor for error handling
-    this.axios.interceptors.response.use(
-      (response) => response,
-      (error: AxiosError<{ message?: string }>) => {
+  /**
+   * Internal method to make HTTP requests
+   */
+  private async request<T>(config: RequestConfig): Promise<T> {
+    const url = `${this.baseURL}${config.path}`;
+    const options: RequestInit = {
+      method: config.method,
+      headers: this.headers,
+    };
+
+    if (config.body) {
+      options.body = JSON.stringify(config.body);
+    }
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
         // Sanitize error messages - never expose tokens
-        if (error.response) {
-          const sanitizedError = new Error(
-            error.response.data && typeof error.response.data === 'object' && 'message' in error.response.data
-              ? String(error.response.data.message)
-              : `Request failed with status ${error.response.status}`,
-          );
-          (sanitizedError as unknown as { status: number }).status = error.response.status;
-          return Promise.reject(sanitizedError);
-        }
-        return Promise.reject(error);
-      },
-    );
+        const sanitizedError = new Error(
+          data && typeof data === 'object' && 'message' in data
+            ? String(data.message)
+            : `Request failed with status ${response.status}`,
+        );
+        (sanitizedError as unknown as { status: number }).status = response.status;
+        throw sanitizedError;
+      }
+
+      return data as T;
+    } catch (error) {
+      // Re-throw if it's already our sanitized error
+      if (error instanceof Error && 'status' in error) {
+        throw error;
+      }
+      // Handle network errors
+      throw new Error(error instanceof Error ? error.message : 'Network request failed');
+    }
   }
 
   /**
    * Update the customer token
    */
   setCustomerToken(token: string): void {
-    this.axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+    this.headers.Authorization = `Bearer ${token}`;
   }
 
   /**
    * Update the public key
    */
   setPublicKey(publicKey: string): void {
-    this.axios.defaults.headers['X-Public-Key'] = publicKey;
+    this.headers['X-Public-Key'] = publicKey;
   }
 
   /**
@@ -71,8 +102,11 @@ export class AscendraaClient {
       ? { feature_id: featureIdOrEventName }
       : { event_name: featureIdOrEventName };
 
-    const response = await this.axios.post<CheckResponse>('/api/v1/customers/check', requestBody);
-    return response.data;
+    return this.request<CheckResponse>({
+      method: 'POST',
+      path: '/api/v1/customers/check',
+      body: requestBody,
+    });
   }
 
   /**
@@ -93,8 +127,11 @@ export class AscendraaClient {
       ...(metadata && { metadata }),
     };
 
-    const response = await this.axios.post<TrackResponse>('/api/v1/customers/track', requestBody);
-    return response.data;
+    return this.request<TrackResponse>({
+      method: 'POST',
+      path: '/api/v1/customers/track',
+      body: requestBody,
+    });
   }
 
   /**
@@ -115,8 +152,11 @@ export class AscendraaClient {
       ...(metadata && { metadata }),
     };
 
-    const response = await this.axios.post<UsageResponse>('/api/v1/customers/usage', requestBody);
-    return response.data;
+    return this.request<UsageResponse>({
+      method: 'POST',
+      path: '/api/v1/customers/usage',
+      body: requestBody,
+    });
   }
 
   /**
@@ -127,8 +167,10 @@ export class AscendraaClient {
    * @returns Customer response with features
    */
   async getCustomer(customerId: string): Promise<CustomerResponse> {
-    const response = await this.axios.get<CustomerResponse>(`/api/v1/customers/${customerId}`);
-    return response.data;
+    return this.request<CustomerResponse>({
+      method: 'GET',
+      path: `/api/v1/customers/${customerId}`,
+    });
   }
 
   /**
@@ -152,8 +194,11 @@ export class AscendraaClient {
       ...options,
     };
 
-    const response = await this.axios.post<CheckoutResponse>('/api/v1/customers/checkout', requestBody);
-    return response.data;
+    return this.request<CheckoutResponse>({
+      method: 'POST',
+      path: '/api/v1/customers/checkout',
+      body: requestBody,
+    });
   }
 
   /**
@@ -164,8 +209,11 @@ export class AscendraaClient {
   async revokeSubscription(subscriptionId?: string): Promise<RevokeResponse> {
     const requestBody: RevokeSubscriptionRequest = subscriptionId ? { subscription_id: subscriptionId } : {};
 
-    const response = await this.axios.post<RevokeResponse>('/api/v1/customers/revoke_subscription', requestBody);
-    return response.data;
+    return this.request<RevokeResponse>({
+      method: 'POST',
+      path: '/api/v1/customers/revoke_subscription',
+      body: requestBody,
+    });
   }
 }
 
