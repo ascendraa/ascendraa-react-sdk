@@ -1,15 +1,13 @@
 {
   "name": "@ascendraa/react",
   "version": "0.1.0",
-  "main": "dist/index.cjs.js",
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "lint": "tsc --noEmit",
-    "prepublishOnly": "rimraf dist && tsup"
-  },
-  "publishConfig": {
-    "access": "public"
+  "description": "Official React SDK for Ascendraa - usage-based billing with real-time updates",
+  "author": "Ascendraa",
+  "license": "MIT",
+  "homepage": "https://ascendraa.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ascendraa/ascendraa-react-sdk.git"
   },
   "keywords": [
     "ascendraa",
@@ -20,28 +18,23 @@
     "tanstack",
     "laravel"
   ],
-  "author": "Ascendraa",
-  "license": "MIT",
-  "description": "Official React SDK for Ascendraa - usage-based billing with real-time updates",
-  "devDependencies": {
-    "@types/node": "^24.10.1",
-    "@types/react": "^19.2.6",
-    "rimraf": "^6.1.2",
-    "shadcn": "^3.5.0",
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "vite": "^7.2.4"
-  },
+  "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "exports": "./dist/index.esm.js",
-  "typesVersions": "{\"*\":{\"*\":[\"dist/*\"]}}",
-  "files": "dist",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ascendraa/ascendraa-react-sdk.git"
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
   },
-  "homepage": "https://ascendraa.com",
+  "files": "dist",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "rimraf dist && tsup"
+  },
   "dependencies": {
     "@laravel/echo-react": "^2.2.6",
     "@tanstack/react-query": "^5.90.10",
@@ -51,5 +44,17 @@
   },
   "peerDependencies": {
     "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.6",
+    "rimraf": "^6.1.2",
+    "shadcn": "^3.5.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

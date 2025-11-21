@@ -1,6 +1,6 @@
 # @ascendraa/react
 
-Official React SDK for Ascendraa - usage-based billing with real-time updates. Built for React, Next.js, Remix, and Vite applications.
+Official React SDK for Ascendraa - usage-based billing with real-time updates.
 
 ## Installation
 
